@@ -37,7 +37,7 @@ LEFT JOIN movie_casts mc ON m.id = mc.movie_id
 LEFT JOIN actors a ON mc.actor_id = a.id
 LEFT JOIN movie_genres mg ON m.id = mg.movie_id
 LEFT JOIN genres g ON mg.genre_id = g.id
-WHERE m.is_upcoming = true OR m.release_date > CURRENT_DATE
+WHERE m.release_date > CURRENT_DATE
 GROUP BY m.id, d.name
 ORDER BY m.release_date ASC;
 
@@ -162,7 +162,6 @@ SELECT
     STRING_AGG(DISTINCT a.name, ', ') AS "cast",
     m.poster_url,
     m.backdrop_url,
-    m.is_upcoming,
     m.popularity_score,
     STRING_AGG(DISTINCT g.name, ', ') AS genre_name
 FROM movies m
@@ -239,7 +238,6 @@ SELECT
     STRING_AGG(DISTINCT a.name, ', ') AS "cast",
     m.poster_url,
     m.backdrop_url,
-    m.is_upcoming,
     m.popularity_score,
     m.created_at,
     m.updated_at,
@@ -271,7 +269,6 @@ SET
     director_id = COALESCE(1, director_id),
     poster_url = COALESCE(NULL, poster_url),
     backdrop_url = COALESCE(NULL, backdrop_url),
-    is_upcoming = COALESCE(NULL, is_upcoming),
     popularity_score = COALESCE(NULL, popularity_score)
 WHERE id = 1
-RETURNING id, title, synopsis, duration, release_date, director_id, poster_url, backdrop_url, is_upcoming, popularity_score;
+RETURNING id, title, synopsis, duration, release_date, director_id, poster_url, backdrop_url, popularity_score;
